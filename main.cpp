@@ -1,29 +1,39 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Game.h"
-//#include "Camara.h"
+
+using namespace sf;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(800, 450), "Juego"); // pantalla
-    sf::Clock dre; // reloj
-    
+    RenderWindow window(VideoMode(800, 450), "Juego"); // pantalla
+    Clock dre; // reloj
+    CircleObject circ1(10.0f, 360u, Vector2f(0.0f,0.0f));
 
-    Setup(window, sf::Vector2f (400.0f,225.0f));
+    array<int,4> coord = {40, 80, 40, 80};
+    BoxObject caja1(&coord[0]);
+
+    vector<RectangleShape> cajes;
+    cajes.push_back(caja1.getRect());
+
+    vector<CircleShape> puntos;
+    puntos.push_back(circ1.getCirc());
+
+    Setup(window, Vector2f (400.0f,225.0f));
     while (window.isOpen())
     {
-        sf::Event event;
+        Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed) ///cerrar
+            if (event.type == Event::Closed) ///cerrar
                 window.close();
             }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::A))
+        if(Keyboard::isKeyPressed(Keyboard::A)) // movimiento s
             mvel.x = -vel;
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::D))
+        else if(Keyboard::isKeyPressed(Keyboard::D))
             mvel.x = vel;
-        else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+        else if(Keyboard::isKeyPressed(Keyboard::Space))
             mvel.y = -vel;
         else{
             mvel.x = 0;
@@ -34,7 +44,7 @@ int main()
         window.clear();
 
         Update(tiempo);
-        Render(window);
+        Render(window, cajes, puntos);
         
         window.display();
         }
