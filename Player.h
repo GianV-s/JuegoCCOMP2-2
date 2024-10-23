@@ -12,9 +12,7 @@ public:
         setPosition(pos);
     }
 
-    // This function updates the collider's position to match the player's position
     void Update() {
-        // Update the collider's position to the current player's position
         collisione.setPos(getPosition());
     }
 
@@ -47,24 +45,22 @@ public:
 
         if (getPosition().y + getRadius() > sch) {  // Bottom border
             setPosition(getPosition().x, sch - getRadius());
-            //isGrounded = true;  // Player grounded when hitting the bottom
+
         } 
         else if (getPosition().y - getRadius() < 0) {  // Top border
             setPosition(getPosition().x, 0 + getRadius());
         }
 
-        // Update the collider's position after border checks
         Update();
     }
 
-    // Get the player's collider object
     Collider getCollider() {
         return collisione;
     }
-
+//
 private:
-    int hp;                  // Player's health points
-    Vector2f pos;            // Player's position
-    float vel;               // Player's movement speed
-    Collider collisione;     // Player's collider object
+    int hp;                 
+    Vector2f pos;           
+    float vel;              
+    Collider collisione;    
 };

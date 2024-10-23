@@ -7,7 +7,7 @@ using namespace sf;
 
 int main()
 {
-    
+    //
     int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450;
     RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Juego");window.setFramerateLimit(60u);
     Clock reloj; // reloj

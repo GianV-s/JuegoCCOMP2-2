@@ -2,7 +2,7 @@
 
 using namespace sf;
 
-class Collider {
+class Collider {//
 public:
     Collider(Vector2f _pos, RectangleShape _rect) 
         : pos{_pos}, rect{_rect}{
