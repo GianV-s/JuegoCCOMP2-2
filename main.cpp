@@ -1,52 +1,55 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <vector>
 #include "Game.h"
 
 using namespace sf;
 
 int main()
 {
-    RenderWindow window(VideoMode(800, 450), "Juego"); // pantalla
-    Clock dre; // reloj
-    CircleObject circ1(10.0f, 360u, Vector2f(0.0f,0.0f));
+    
+    int SCREEN_WIDTH = 800, SCREEN_HEIGHT = 450;
+    RenderWindow window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Juego");window.setFramerateLimit(60u);
+    Clock reloj; // reloj
+    Vector2f mvel(0.0f, 0.0f);
+   
+    Player Pete (20.f, 360u, 100, Vector2f(50.f,400.f));
 
-    array<int,4> coord = {40, 80, 40, 80};
-    BoxObject caja1(&coord[0]);
+    BoxObject caja1 (Vector2f(100.0f, 425.0f), Vector2f(50.0f, 50.0f));
+    BoxObject caja2 (Vector2f(200.0f, 390.0f), Vector2f(50.0f, 50.0f));
 
-    vector<RectangleShape> cajes;
-    cajes.push_back(caja1.getRect());
+    vector<BoxObject> boxObjects;
+    apendin(boxObjects, caja1);
+    apendin(boxObjects, caja2);
 
-    vector<CircleShape> puntos;
-    puntos.push_back(circ1.getCirc());
-
-    Setup(window, Vector2f (400.0f,225.0f));
     while (window.isOpen())
     {
         Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == Event::Closed) ///cerrar
+            if (event.type == Event::Closed)
                 window.close();
-            }
-
-        if(Keyboard::isKeyPressed(Keyboard::A)) // movimiento s
-            mvel.x = -vel;
-        else if(Keyboard::isKeyPressed(Keyboard::D))
-            mvel.x = vel;
-        else if(Keyboard::isKeyPressed(Keyboard::Space))
-            mvel.y = -vel;
-        else{
-            mvel.x = 0;
-            mvel.y = 0;
         }
-        float tiempo = dre.restart().asSeconds(); // tiempo 
+    
+        float time = reloj.restart().asSeconds(); 
+
+        Pete.movePlayer(time);
+        
+        //colisiones
+        Pete.checkBorder(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        checkColObj(boxObjects, Pete);
 
         window.clear();
 
-        Update(tiempo);
-        Render(window, cajes, puntos);
-        
+        Update(time, Pete, mvel);
+
+        RenderObjs(window, boxObjects);
+
+        Render(window, Pete);
+
         window.display();
-        }
+    }
+    
     return 0;
 }
